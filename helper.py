@@ -57,6 +57,41 @@ def maybe_download_pretrained_vgg(data_dir):
         # Remove zip file to save space
         os.remove(os.path.join(vgg_path, vgg_filename))
 
+def maybe_download_data_road(data_dir):
+    """
+    Download and extract data_road if it doesn't exist
+    :param data_dir: Directory to download the model to
+    """
+    data_filename = 'data_road.zip'
+    data_path = os.path.join(data_dir, 'data_road')
+    data_dirs = [
+        os.path.join(data_path, 'testing'),
+        os.path.join(data_path, 'training')]
+
+    missing_data_files = [data_file for data_file in data_dirs if not os.path.exists(data_file)]
+    if missing_data_files:
+        # Clean vgg dir
+        if os.path.exists(data_path):
+            shutil.rmtree(data_path)
+        os.makedirs(data_path)
+
+        # Download data_road
+        print('Downloading data road...')
+        with DLProgress(unit='B', unit_scale=True, miniters=1) as pbar:
+            urlretrieve(
+                'http://kitti.is.tue.mpg.de/kitti/data_road.zip',
+                os.path.join(data_path, data_filename),
+                pbar.hook)
+
+        # Extract data_road
+        print('Extracting data...')
+        zip_ref = zipfile.ZipFile(os.path.join(data_path, data_filename), 'r')
+        zip_ref.extractall(data_dir)
+        zip_ref.close()
+
+        # Remove zip file to save space
+        os.remove(os.path.join(data_path, data_filename))
+
 
 def gen_batch_function(data_folder, image_shape):
     """
