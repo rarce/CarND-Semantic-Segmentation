@@ -79,7 +79,7 @@ def maybe_download_data_road(data_dir):
         print('Downloading data road...')
         with DLProgress(unit='B', unit_scale=True, miniters=1) as pbar:
             urlretrieve(
-                'http://kitti.is.tue.mpg.de/kitti/data_road.zip',
+                'https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/advanced_deep_learning/data_road.zip',
                 os.path.join(data_path, data_filename),
                 pbar.hook)
 

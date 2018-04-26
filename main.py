@@ -95,10 +95,14 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     correct_label = tf.reshape(correct_label, (-1,num_classes))
     # define loss function
     cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits= logits, labels= correct_label))
+    # define loss function
+    reg_losses = tf.get_collection(tf.GraphKeys.REGULARIZATION_LOSSES)
+    reg_loss = tf.reduce_sum(reg_losses)
+    loss = tf.add(cross_entropy_loss, reg_loss)
     # define training operation
     optimizer = tf.train.AdamOptimizer(learning_rate= learning_rate)
-    train_op = optimizer.minimize(cross_entropy_loss)
-    return logits, train_op, cross_entropy_loss
+    train_op = optimizer.minimize(loss)
+    return logits, train_op, loss
 tests.test_optimize(optimize)
 
 
@@ -156,7 +160,7 @@ def run():
         # OPTIONAL: Augment Images for better results
         #  https://datascience.stackexchange.com/questions/5224/how-to-prepare-augment-images-for-neural-network
 
-        epochs = 10
+        epochs = 50
         batch_size = 5
 
         # TF placeholders
