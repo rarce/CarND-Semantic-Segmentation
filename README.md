@@ -2,6 +2,17 @@
 ### Introduction
 In this project, you'll label the pixels of a road in images using a Fully Convolutional Network (FCN).
 
+### Implementation
+The implementation of this project follow the recomendation of the walkthrough, the number of `epochs` and `batch size` was
+setting by test and error and according to the limitations of the running hardware. Also set `learning rate` to `1e-3`. The
+architecture of the network was keep as simple as was posible, without using dropout and regularizacion so better results
+can be obtained using this techniques.
+
+### Results
+The following images show how the obtained model can classify ten of the photos from the test set.
+
+![imagen](movie.gif)
+
 ### Setup
 ##### GPU
 `main.py` will check to make sure you are using GPU - if you don't have a GPU on your system, you can use AWS or another cloud computing platform.
